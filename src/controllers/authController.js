@@ -21,7 +21,7 @@ router.post('/signup', async (req, res, next) => {
        } 
     );
 
-    console.log(user)
+    //console.log(user)
     
     user.password = await user.encryptPassword(user.password)
     await user.save();
@@ -40,7 +40,7 @@ router.get('/dashboard', verifyToken, async (req, res, next) => {
         return res.status(404).send('No user found....!!!');
     }
 
-    res.json(user);
+    res.status(200).json(user);
     //res.sendFile(__dirname + '../public/dashboard.html');
 })
 
@@ -66,7 +66,7 @@ router.post('/signin', async (req, res, next) => {
     const token = jwt.sign({id: user._id}, config.secret, {
         expiresIn: 60 * 60 * 24
     });
-    
+
     res.status(200).json({auth: true, token});
 })
 
