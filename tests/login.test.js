@@ -25,6 +25,12 @@ const user = {
     password: '1234',
 };
 
+const user2 = {
+    username: 'loginuser2',
+    email: 'loginuser2@example.com',
+    password: '1234',
+};
+
 describe('POST /signin', () => {
     it('Se loguea un usuario y retorna 200, token y auth: true', async () => {
         // Primero creamos un usuario
@@ -38,5 +44,14 @@ describe('POST /signin', () => {
         expect(res.statusCode).toEqual(200);
         expect(res.body).toHaveProperty('token');
         expect(res.body).toHaveProperty('auth', true);
+    });
+});
+
+describe('POST /signin', () => {
+    it('No se encuentra el usuario y retorna 404', async () => {
+        const res = await request(app)
+            .post('/signin')
+            .send(user2);
+        expect(res.statusCode).toEqual(404);
     });
 });
